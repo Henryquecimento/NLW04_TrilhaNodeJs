@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
-import { User } from "../models/User";
+import { getCustomRepository } from "typeorm";
+import { UsersRepository } from "../repositories/UsersRepositories";
 
 class UserController {
     
-    async create(req: Request, res: Response) {
-        const { name, email } = req.body;
+    async create(request: Request, response: Response) {
+        const { name, email } = request.body;
 
-        const usersRepository = getRepository(User);
+        const usersRepository = getCustomRepository(UsersRepository);
         //findOne replaces SELECT * FROM USERS WHERE EMAIL = "EMAIL"
         const userAlreadyExists = await usersRepository.findOne({
             email
         });
 
         if(userAlreadyExists) {
-            return res.status(404).json({
+            return response.status(400).json({
                 error: "User already exists!",
             });
         }
@@ -25,7 +25,7 @@ class UserController {
 
         await usersRepository.save(user);
 
-        return res.send(user);
+        return response.status(201).json(user);
     }
 }
 
