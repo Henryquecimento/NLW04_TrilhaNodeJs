@@ -22,5 +22,7 @@ class User {
         }
     }
 }
+/* Constructor é um método que é chamado assim que uma classe é instanciada*/
+/* Assim que uma classe é criada/chamada, as info dentro do constructor são executadas*/
 
 export { User }
